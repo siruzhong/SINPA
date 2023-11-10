@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Display a map on a webpage</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+
+<header class="header">
+    <div class="header-contents">
+        <a href="#" class="header-logo" aria-label="openaq logo">
+            <img class="small-logo" src="assets/logo.png">
+        </a>
+        <div class="spacer"></div>
+        <nav class="nav">
+            <label class="menu-button-container" for="menu-toggle">
+                <input id="menu-toggle" type="checkbox">
+                <button class="menu-button button-reset">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </label>
+            <ul class="nav-list ">
+                <li class="dropdown">
+                    <a href="#" aria-haspopup="true" class="nav__item nav__item--active">Map Styles</a>
+                    <ul class="submenu" aria-label="submenu">
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="satellite-streets-v12">Satellite Streets</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="light-v11">Light</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="dark-v11">Dark</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="streets-v12">Streets</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="outdoors-v12">Outdoors</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a id="heatmapToggle" href="#" aria-haspopup="true" class="nav__item nav__item--active">Heat Map</a>
+                    <ul class="submenu" aria-label="submenu">
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" id="heatmap1km">1km * 1km (Default)</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" id="heatmap2km">2km * 2k</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" id="heatmap3km">3km * 3km</a>
+                        </li>
+                    </ul>
+                </li>
+                <a href="#" id="interpolation" class="nav__item nav__item--active">Enable Interpolation</a>
+            </ul>
+        </nav>
+        <a href="https://citymind.top"
+           class="btn btn-primary donate-btn js-header-donate-btn">About US</a></div>
+</header>
+
+<!-- Map Area -->
+<div id="map"></div>
+
+<!-- Air Quality Ruler-->
+<div id="airQualityLegend">
+    <div class="legend-container">
+        <div class="legend-texts">
+            <span class="legend-text">优</span>
+            <span class="legend-text">良</span>
+            <span class="legend-text">轻度污染</span>
+            <span class="legend-text">中度污染</span>
+            <span class="legend-text">重度污染</span>
+            <span class="legend-text">严重污染</span>
+        </div>
+        <div class="legend-bars">
+            <div class="legend-bar" style="background-color: #00FF00;"></div>
+            <div class="legend-bar" style="background-color: #FFFF00;"></div>
+            <div class="legend-bar" style="background-color: #FFA500;"></div>
+            <div class="legend-bar" style="background-color: #FF4500;"></div>
+            <div class="legend-bar" style="background-color: #FF0000;"></div>
+            <div class="legend-bar" style="background-color: #8B0000;"></div>
+        </div>
+        <div class="legend-ranges">
+            <span class="legend-range" style="margin-top: 1px;">0</span>
+            <span class="legend-range">50</span>
+            <span class="legend-range">100</span>
+            <span class="legend-range">150</span>
+            <span class="legend-range">200</span>
+            <span class="legend-range">300</span>
+            <span class="legend-range" style="margin-bottom: 1px;">500</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- Mapbox Script -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+      type="text/css">
+
+<script src="js/main.js"></script>
+<script src="js/data.js"></script>
+<script src="js/heatmap.js"></script>
+<script src="js/tool.js"></script>
+<script src="js/interpolation.js"></script>
+<script src="js/style.js"></script>
+</body>
+</html>
