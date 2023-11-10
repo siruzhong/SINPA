@@ -19,7 +19,7 @@ function csvToGeoJSON(fileUrl, callback) {
                             type: 'Feature',
                             geometry: {
                                 type: 'Point',
-                                coordinates: [parseFloat(row.longitude), parseFloat(row.latitude)]
+                                coordinates: [parseFloat(row.Longitude), parseFloat(row.Latitude)]
                             },
                             properties: row
                         };
@@ -39,65 +39,65 @@ function csvToGeoJSON(fileUrl, callback) {
 
 // 添加站点数据图层
 function addStationsLayer() {
-    // 读取包含新数据的JSON文件
-    fetch('./data/hour_data/hour_data.json')
-        .then(response => response.json())
-        .then(hourData => {
-            // 将CSV数据转换为GeoJSON
-            csvToGeoJSON('./data/1085_stations.csv', (error, geojsonData) => {
-                if (error) {
-                    console.error('Error:', error);
-                } else {
-                    // 更新geojsonData中的pm25值
-                    geojsonData.features.forEach((feature, index) => {
-                        feature.properties.pm25 = hourData[index].air["PM2.5"];
-                        feature.properties.pm10 = hourData[index].air["PM10"];
-                        feature.properties.no2 = hourData[index].air["NO2"];
-                        feature.properties.co = hourData[index].air["CO"];
-                        feature.properties.o3 = hourData[index].air["O3"];
-                        feature.properties.so2 = hourData[index].air["SO2"];
-                        feature.properties.rainfall = hourData[index].tmp["Rainfall"];
-                        feature.properties.temperature = hourData[index].tmp["Temperature"];
-                        feature.properties.pressure = hourData[index].tmp["Pressure"];
-                        feature.properties.humidity = hourData[index].tmp["Humidity"];
-                        feature.properties.windSpeed = hourData[index].tmp["Wind Speed"];
-                        feature.properties.windDirection = getWindDirectionDescription(hourData[index].tmp["Wind Direction"]);
-                        feature.properties.weather = getWeatherDescription(hourData[index].tmp["Weather"]);
-                    });
+    // 使用Fetch API获取包含新数据的CSV文件
+    fetch('./data/pred.csv')
+        .then(response => response.text())
+        .then(csvData => {
+            // 使用PapaParse解析CSV数据
+            Papa.parse(csvData, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function (sampleData) {
+                    // 使用csvToGeoJSON函数读取停车场数据
+                    csvToGeoJSON('./data/lots_1687.csv', (error, geojsonData) => {
+                        if (error) {
+                            console.error('Error converting CSV to GeoJSON:', error);
+                            return;
+                        }
 
-                    console.log(geojsonData);
+                        // 更新geojsonData中的属性
+                        geojsonData.features.forEach((feature, index) => {
+                            // 确保hourData.data的长度与features的长度一致
+                            feature.properties.n_lots = sampleData['data'][index]['00:00']
+                        });
 
-                    // 添加数据源
-                    map.addSource('stations', {
-                        type: 'geojson',
-                        data: geojsonData
-                    });
+                        console.log(geojsonData);
 
-                    // 添加数据图层，使用基于PM2.5值的动态圆圈颜色
-                    map.addLayer({
-                        id: '1085-stations-1cyyg4',
-                        type: 'circle',
-                        source: 'stations',
-                        paint: {
-                            'circle-radius': 5,
-                            'circle-color': [
-                                'case',
-                                ['<', ['get', 'pm25'], 12], 'rgb(206, 199, 255)',
-                                ['<', ['get', 'pm25'], 36], 'rgb(164, 151, 253)',
-                                ['<', ['get', 'pm25'], 56], 'rgb(143, 129, 238)',
-                                ['<', ['get', 'pm25'], 151], 'rgb(120, 103, 235)',
-                                ['<', ['get', 'pm25'], 251], 'rgb(106, 92, 216)',
-                                'rgb(88, 77, 174)'
-                            ],
-                            'circle-stroke-color': 'white',
-                            'circle-stroke-width': 1
-                        },
+                        // 添加数据源
+                        map.addSource('lots', {
+                            type: 'geojson',
+                            data: geojsonData
+                        });
+
+                        // 在这里添加你的图层和其他mapbox逻辑
+                        map.addLayer({
+                            id: 'lots_1687',
+                            type: 'circle',
+                            source: 'lots',
+                            paint: {
+                                'circle-radius': 5,
+                                'circle-color': [
+                                    'case',
+                                    ['<', ['get', 'n_lots'], 12], 'rgb(206, 199, 255)',
+                                    ['<', ['get', 'n_lots'], 36], 'rgb(164, 151, 253)',
+                                    ['<', ['get', 'n_lots'], 56], 'rgb(143, 129, 238)',
+                                    ['<', ['get', 'n_lots'], 151], 'rgb(120, 103, 235)',
+                                    ['<', ['get', 'n_lots'], 251], 'rgb(106, 92, 216)',
+                                    'rgb(88, 77, 174)'
+                                ],
+                                'circle-stroke-color': 'white',
+                                'circle-stroke-width': 1
+                            },
+                        });
                     });
+                },
+                error: function (error) {
+                    console.error('Error reading CSV file:', error);
                 }
             });
         })
         .catch(error => {
-            console.error('Error reading JSON file:', error);
+            console.error('Error reading CSV file:', error);
         });
 }
 
