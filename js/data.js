@@ -40,7 +40,7 @@ function csvToGeoJSON(fileUrl, callback) {
 // 添加站点数据图层
 function addStationsLayer() {
     // 使用Fetch API获取包含新数据的CSV文件
-    fetch('./data/pred.csv')
+    fetch('./data/true.csv')
         .then(response => response.text())
         .then(csvData => {
             // 使用PapaParse解析CSV数据
@@ -58,7 +58,7 @@ function addStationsLayer() {
                         // 更新geojsonData中的属性
                         geojsonData.features.forEach((feature, index) => {
                             // 确保hourData.data的长度与features的长度一致
-                            feature.properties.n_lots = sampleData['data'][index]['00:00']
+                            feature.properties.n_lots = Number(sampleData['data'][index]['11:45'])
                         });
 
                         console.log(geojsonData);
@@ -75,20 +75,30 @@ function addStationsLayer() {
                             type: 'circle',
                             source: 'lots',
                             paint: {
-                                'circle-radius': 5,
-                                'circle-color': [
-                                    'case',
-                                    ['<', ['get', 'n_lots'], 12], 'rgb(206, 199, 255)',
-                                    ['<', ['get', 'n_lots'], 36], 'rgb(164, 151, 253)',
-                                    ['<', ['get', 'n_lots'], 56], 'rgb(143, 129, 238)',
-                                    ['<', ['get', 'n_lots'], 151], 'rgb(120, 103, 235)',
-                                    ['<', ['get', 'n_lots'], 251], 'rgb(106, 92, 216)',
-                                    'rgb(88, 77, 174)'
+                                // Use opacity to indicate availability - more available = less opacity
+                                'circle-opacity': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['get', 'n_lots'],
+                                    0, 0.9, // 0 available spaces - more opaque
+                                    600, 0.1 // 600 available spaces - less opaque
                                 ],
-                                'circle-stroke-color': 'white',
-                                'circle-stroke-width': 1
+                                // Use size variation - more available = larger circle
+                                // 'circle-radius': [
+                                //     'interpolate',
+                                //     ['linear'],
+                                //     ['get', 'n_lots'],
+                                //     0, 5,    // 0 available spaces - smaller circle
+                                //     600, 12  // 600 available spaces - larger circle
+                                // ],
+                                // Color remains consistent, but you can choose one that suits the map style
+                                'circle-color': 'rgb(30,144,255)', // Dodger blue color
+                                'circle-stroke-color': 'white',    // White stroke to improve visibility
+                                'circle-stroke-width': 1,
+                                'circle-radius': 5,
                             },
                         });
+
                     });
                 },
                 error: function (error) {
