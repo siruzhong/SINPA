@@ -7,7 +7,7 @@ const map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/streets-v11', // URL to the map style
     center: [103.8198, 1.3521], // Initial position [lng, lat]
     zoom: 12,
-    projection: 'mercator' // 初始投影方式
+    projection: 'mercator' // Initial projection
 });
 
 // When the map finishes loading, add the stations layer
@@ -49,10 +49,11 @@ map.on('mouseenter', 'lots_1687', function (e) {
     popup.addTo(map);
 });
 
-
 // Event handler for mouseleave on 'lots_1687' layer
 map.on('mouseleave', 'lots_1687', function () {
+    // Reset cursor style
     map.getCanvas().style.cursor = '';
+
+    // Remove the popup
     popup.remove();
 });
-

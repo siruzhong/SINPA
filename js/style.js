@@ -1,12 +1,14 @@
-// 获取所有的样式切换链接
+// Get all style switch links with data-style attribute
 const styleLinks = document.querySelectorAll('.submenu__item a[data-style]');
 
-// 为每个链接添加点击事件监听器
+// Add a click event listener for each link
 for (const link of styleLinks) {
     link.addEventListener('click', function (e) {
-        e.preventDefault(); // 阻止默认的链接点击行为
+        e.preventDefault(); // Prevent the default link click behavior
         const styleId = this.getAttribute('data-style');
         map.setStyle('mapbox://styles/mapbox/' + styleId);
-        map.once('style.load', addStationsLayer); // 当样式加载完成后，重新添加站点数据层
+
+        // Add an event listener to wait for the new style to load and then add the stations layer
+        map.once('style.load', addStationsLayer);
     });
 }
