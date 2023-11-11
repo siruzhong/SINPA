@@ -26,7 +26,8 @@ map.on('mouseenter', 'lots_1687', function (e) {
     const clickedData = e.features[0].properties;
 
     // Create the popup content and get the canvas ID
-    const content = generatePopupContent(clickedData);
+    const content = generatePopupContent(e.lngLat);
+    updatePopupContent(e.lngLat.lng, e.lngLat.lat)
     const uniqueCanvasId = window.currentPopupData.id;
 
     // Create the popup

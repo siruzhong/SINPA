@@ -121,7 +121,7 @@ function addStationsLayer() {
 }
 
 // Function to generate HTML content for the popup, including a Chart.js chart
-function generatePopupContent(clickedData) {
+function generatePopupContent(lnglat) {
     // Create a unique ID for the canvas
     const uniqueCanvasId = 'chart-' + Math.random().toString(36).substr(2, 9);
     // Store the clicked data for use when the popup is open
@@ -129,12 +129,47 @@ function generatePopupContent(clickedData) {
         id: uniqueCanvasId,
     };
 
+    getNearbyPlaces(lnglat)
     // Return the HTML for the popup with the unique canvas ID
     return `
         <div style="width:1200px; max-width:100%;">
             <canvas id="${uniqueCanvasId}" style="width:100%; height:200px;"></canvas>
-        </div>`;
+        </div>
+        <p align="center">
+                <strong>coordinate (${lnglat.lng.toFixed(3)}&deg;E, ${lnglat.lat.toFixed(3)}&deg;N)</strong>
+            <u id="placesList" style="margin-left: 30px">Popular POIs</u>
+        </p>
+        `;
 }
+
+function getNearbyPlaces(lnglat) {
+    var mapboxAccessToken = 'pk.eyJ1Ijoic2lydXpob25nIiwiYSI6ImNsamJpNXdvcTFoc24zZG14NWU5azdqcjMifQ.W_2t66prRsaq8lZMSdfKzg'; // 替换为你的Mapbox Access Token
+    var types = 'poi'; // 指定你想搜索的类型为兴趣点（POI）
+    var limit = 3; // 限制返回结果数量
+    var url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lnglat.lng},${lnglat.lat}.json?` +
+        `access_token=${mapboxAccessToken}&limit=${limit}&types=${types}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.features && Array.isArray(data.features)) {
+                var places = data.features.map(feature => feature.text).slice(0, 3);
+                updatePopupContent(places);
+            } else {
+                console.error('Received data is not an array:', data);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function updatePopupContent(places) {
+    if (Array.isArray(places)) {
+        document.querySelector('#placesList').innerHTML = places.join(', ');
+    } else {
+        console.error('places is not an array:', places);
+    }
+}
+
 
 // Function to generate time labels for a 12-hour period every 15 minutes
 function generateTimeLabels() {
@@ -148,6 +183,7 @@ function generateTimeLabels() {
 }
 
 // Function to initialize the Chart.js chart, called after the popup is shown
+// Reference: https://www.chartjs.org/docs/latest/
 function initChart(canvasId, trueData, predData) {
     trueArr = trueData.slice(1, -1).split(',').map(Number)
     predArr = predData.slice(1, -1).split(',').map(Number)
