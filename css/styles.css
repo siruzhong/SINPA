@@ -3087,6 +3087,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
 }
 
 .mapboxgl-popup-content {
+    width: 800px;
     pointer-events: auto;
     background: #fff;
     border-radius: 3px;

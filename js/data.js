@@ -75,8 +75,10 @@ function addStationsLayer() {
                         // Append true and predicted data points to their respective arrays
                         feature.properties.true_n_lots.push(Number(parseTrueCsv.data[index][timeKey]));
                         // Handle pred.csv data differently since it's a prediction
-                        if (i < 24) {
+                        if (i >= 24) {
                             feature.properties.pred_n_lots.push(Number(parsePredCsv.data[index][timeKey]));
+                        } else {
+                            feature.properties.pred_n_lots.push(null)
                         }
                     }
                 });
@@ -128,7 +130,10 @@ function generatePopupContent(clickedData) {
     };
 
     // Return the HTML for the popup with the unique canvas ID
-    return '<canvas id="' + uniqueCanvasId + '" width="400" height="200"></canvas>';
+    return `
+        <div style="width:1200px; max-width:100%;">
+            <canvas id="${uniqueCanvasId}" style="width:100%; height:200px;"></canvas>
+        </div>`;
 }
 
 // Function to generate time labels for a 12-hour period every 15 minutes
@@ -144,36 +149,66 @@ function generateTimeLabels() {
 
 // Function to initialize the Chart.js chart, called after the popup is shown
 function initChart(canvasId, trueData, predData) {
-    const ctx = document.getElementById(canvasId).getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: generateTimeLabels(),
-            datasets: [{
-                label: 'True',
-                data: trueData,
-                borderColor: 'red',
-                fill: false
-            }, {
-                label: 'Predicted',
-                data: predData,
-                borderColor: 'blue',
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    type: 'time',
-                    time: {
-                        unit: 'hour',
-                        tooltipFormat: 'HH:mm',
-                        displayFormats: {
-                            quarter: 'HH:mm'
+    trueArr = trueData.slice(1, -1).split(',').map(Number)
+    predArr = predData.slice(1, -1).split(',').map(Number)
+
+    new Chart(
+        document.getElementById(canvasId),
+        {
+            type: 'line',
+            data: {
+                labels: generateTimeLabels(),
+                datasets: [{
+                    label: 'True',
+                    data: trueArr,
+                    borderColor: 'red',
+                    fill: false
+                }, {
+                    label: 'Predicted',
+                    data: predArr,
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
+                        }
+                    },
+                    y: {
+                        beginAtZero: true, // 根据你的数据可能需要调整
+                        ticks: {
+                            // 你可能需要自定义 tick 配置
                         }
                     }
-                }]
+                },
+                plugins: {
+                    annotation: {
+                        annotations: {
+                            line6AM: { // 注解的ID
+                                type: 'line',
+                                mode: 'vertical',
+                                xMin: '06:00',
+                                xMax: '06:00',
+                                borderColor: 'black',
+                                borderWidth: 2,
+                                borderDash: [6, 6], // 这会创建一个6px的虚线和6px的间隙
+                                label: {
+                                    enabled: true,
+                                    content: '6:00 AM',
+                                    position: "start"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-    });
+    );
 }

@@ -40,8 +40,10 @@ map.on('mouseenter', 'lots_1687', function (e) {
     popup.on('open', function () {
         // Ensure the popup content has been rendered
         requestAnimationFrame(function () {
-            // Initialize the chart
-            initChart(uniqueCanvasId, clickedData.true_n_lots, clickedData.pred_n_lots);
+            // Initialize the chart after a short delay
+            setTimeout(function () {
+                initChart(uniqueCanvasId, clickedData.true_n_lots, clickedData.pred_n_lots);
+            }, 100);
         });
     });
 
