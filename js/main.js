@@ -22,7 +22,7 @@ var popup = new mapboxgl.Popup({
 });
 
 // 当鼠标悬停在站点上时显示数据
-map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
+map.on('mouseenter', 'lots_1687', function (e) {
     const clickedData = e.features[0].properties;
 
     popup.setLngLat(e.lngLat)
@@ -32,30 +32,21 @@ map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
     map.getCanvas().style.cursor = 'pointer';
 });
 
+// Event listener for when the popup is added to the map
+map.on('popupopen', function () {
+    // Use a timeout to allow the popup's content to be added to the DOM
+    setTimeout(function () {
+        // Retrieve the stored data using the unique canvas ID
+        const popupData = window.currentPopupData;
+        if (popupData) {
+            initChart(popupData);
+        }
+    }, 10); // The timeout may need to be adjusted depending on the performance
+});
+
 // 当鼠标离开站点时移除数据
-map.on('mouseleave', '1085-stations-1cyyg4', function () {
+map.on('mouseleave', 'lots_1687', function () {
     map.getCanvas().style.cursor = '';
     popup.remove();
 });
-
-// 添加点击事件监听器
-map.on('click', function (e) {
-    if (isClickEnabled) {
-        // 获取点击的经纬度
-        var lngLat = e.lngLat;
-
-        // 检查点击的经纬度是否在指定的范围内
-        if (isWithinBounds(lngLat)) {
-            // 使用经纬度查询数据
-            fetchDataForLocation(lngLat, function (data) {
-                // 创建一个信息窗口
-                new mapboxgl.Popup()
-                    .setLngLat(lngLat)
-                    .setHTML(generatePopupContent(data))
-                    .addTo(map);
-            });
-        }
-    }
-});
-
 

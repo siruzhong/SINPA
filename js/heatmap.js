@@ -85,10 +85,10 @@ document.getElementById('heatmapToggle').addEventListener('click', function () {
     const currentVisibility = map.getLayoutProperty('pm25-fill', 'visibility');
     if (currentVisibility === 'visible') {
         map.setLayoutProperty('pm25-fill', 'visibility', 'none');
-        map.setLayoutProperty('1085-stations-1cyyg4', 'visibility', 'visible');
+        map.setLayoutProperty('lots_1687', 'visibility', 'visible');
     } else {
         map.setLayoutProperty('pm25-fill', 'visibility', 'visible');
-        map.setLayoutProperty('1085-stations-1cyyg4', 'visibility', 'none');
+        map.setLayoutProperty('lots_1687', 'visibility', 'none');
     }
 });
 
