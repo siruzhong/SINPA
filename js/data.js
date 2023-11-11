@@ -135,7 +135,6 @@ function generatePopupContent(clickedData) {
     // Store the clicked data so we can use it when the popup is open
     window.currentPopupData = {
         id: uniqueCanvasId,
-        data: clickedData // This should include whatever data you need for the chart
     };
 
     // Return the HTML for the popup with the unique canvas ID
@@ -154,20 +153,20 @@ function generateTimeLabels() {
 }
 
 // This function initializes the Chart.js chart, to be called after the popup is shown
-function initChart(data) {
-    const ctx = document.getElementById(data.id).getContext('2d');
+function initChart(canvasId, trueData, predData) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: generateTimeLabels(), // your function to generate time labels
+            labels: generateTimeLabels(),
             datasets: [{
                 label: 'True',
-                data: data.true_n_lots,
+                data: trueData,
                 borderColor: 'red',
                 fill: false
             }, {
                 label: 'Predicted',
-                data: data.true_n_lots,
+                data: predData,
                 borderColor: 'blue',
                 fill: false
             }]
