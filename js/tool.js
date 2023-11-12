@@ -59,10 +59,10 @@ map.addControl(
 );
 
 // Define an Air Quality Legend control
-class AirQualityLegendControl {
+class ParkingAvailabilityLegendControl {
     onAdd(map) {
         this.map = map;
-        this.container = document.getElementById('airQualityLegend');
+        this.container = document.getElementById('parkingAvailabilityLegend');
         return this.container;
     }
 
@@ -73,7 +73,7 @@ class AirQualityLegendControl {
 }
 
 // Add the Air Quality Legend control to the bottom-right corner of the map
-map.addControl(new AirQualityLegendControl(), 'bottom-right');
+map.addControl(new ParkingAvailabilityLegendControl(), 'bottom-right');
 
 // Add zoom and rotate controls to the map
 map.addControl(new mapboxgl.NavigationControl());

@@ -60,33 +60,24 @@
 <!-- Map Area -->
 <div id="map"></div>
 
-<!-- Air Quality Ruler-->
-<div id="airQualityLegend">
+<!-- Parking Availability Legend -->
+<div id="parkingAvailabilityLegend">
     <div class="legend-container">
         <div class="legend-texts">
-            <span class="legend-text">优</span>
-            <span class="legend-text">良</span>
-            <span class="legend-text">轻度污染</span>
-            <span class="legend-text">中度污染</span>
-            <span class="legend-text">重度污染</span>
-            <span class="legend-text">严重污染</span>
+            <span class="legend-text">Full</span> <!-- Fully Occupied -->
+            <span class="legend-text">Busy</span> <!-- Mostly Occupied -->
+            <span class="legend-text">Moderate</span> <!-- Moderately Occupied -->
+            <span class="legend-text">Available</span> <!-- Slightly Occupied -->
+            <span class="legend-text">Free</span> <!-- Mostly Available -->
+            <span class="legend-text">Empty</span> <!-- Completely Available -->
         </div>
         <div class="legend-bars">
-            <div class="legend-bar" style="background-color: #00FF00;"></div>
-            <div class="legend-bar" style="background-color: #FFFF00;"></div>
-            <div class="legend-bar" style="background-color: #FFA500;"></div>
-            <div class="legend-bar" style="background-color: #FF4500;"></div>
-            <div class="legend-bar" style="background-color: #FF0000;"></div>
-            <div class="legend-bar" style="background-color: #8B0000;"></div>
-        </div>
-        <div class="legend-ranges">
-            <span class="legend-range" style="margin-top: 1px;">0</span>
-            <span class="legend-range">50</span>
-            <span class="legend-range">100</span>
-            <span class="legend-range">150</span>
-            <span class="legend-range">200</span>
-            <span class="legend-range">300</span>
-            <span class="legend-range" style="margin-bottom: 1px;">500</span>
+            <div class="legend-bar" style="background-color: rgba(30,144,255,1);"></div>
+            <div class="legend-bar" style="background-color: rgba(30,144,255,0.8);"></div>
+            <div class="legend-bar" style="background-color: rgba(30,144,255,0.6);"></div>
+            <div class="legend-bar" style="background-color: rgba(30,144,255,0.5);"></div>
+            <div class="legend-bar" style="background-color: rgba(30,144,255,0.4);"></div>
+            <div class="legend-bar" style="background-color: rgba(30,144,255,0.2);"></div>
         </div>
     </div>
 </div>

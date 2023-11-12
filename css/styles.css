@@ -89,7 +89,7 @@ body {
     font-family: Space Grotesk, sans-serif;
     font-style: normal;
     margin: 0;
-    color: #30363c;
+    color: rgba(30, 144, 255, 0.8);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 700;
@@ -108,13 +108,13 @@ body {
 }
 
 .btn-primary {
-    background-color: #33a3a1;
+    background-color: rgb(30, 144, 255);
     font-weight: 700;
     color: #fff
 }
 
 .btn-primary * {
-    color: #fff
+    color: rgba(30, 144, 255, 0.8)
 }
 
 .btn-primary--disabled {
@@ -123,11 +123,11 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #3fc2c0
+    background-color: rgba(30, 144, 255, 0.8)
 }
 
 .btn-primary:active {
-    border: 1px solid #33a3a1
+    border: 1px solid rgba(30, 144, 255, 0.8)
 }
 
 .btn-secondary {
@@ -1133,7 +1133,7 @@ hr.hr {
 }
 
 .header {
-    padding: 0 40px;
+    padding: 0 10px;
     z-index: 1000
 }
 
@@ -3294,10 +3294,10 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
 }
 
 .small-logo {
-    width: 200px;
+    width: 300px;
 }
 
-#airQualityLegend {
+#parkingAvailabilityLegend {
     position: absolute;
     bottom: 10px;
     right: 10px;
