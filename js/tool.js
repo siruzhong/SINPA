@@ -46,17 +46,26 @@ const coordinatesGeocoder = function (query) {
     return geocodes;
 };
 
-// Add a location search box to the map
-map.addControl(
-    new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        localGeocoder: coordinatesGeocoder,
-        zoom: 4,
-        placeholder: 'Search here ...',
-        mapboxgl: mapboxgl,
-        reverseGeocode: true
-    })
-);
+// Initialize the geocoder control
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    localGeocoder: coordinatesGeocoder,
+    zoom: 4,
+    placeholder: 'Search here ...',
+    mapboxgl: mapboxgl,
+    reverseGeocode: true
+});
+
+// Append the geocoder to your header
+document.getElementById('geocoder-container').appendChild(geocoder.onAdd(map));
+
+
+// Initialize the fullscreen control
+const fullscreen = new mapboxgl.FullscreenControl()
+
+// Append the fullscreen to your header
+document.getElementById('fullscreen-container').appendChild(fullscreen.onAdd(map));
+
 
 // Define an Air Quality Legend control
 class ParkingAvailabilityLegendControl {

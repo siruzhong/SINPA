@@ -1,6 +1,8 @@
 # SINPA
 Singapore Parking Prediction and Analysis
 
+![img.png](img.png)
+
 Deployment:
 + vim /www/server/nginx/conf/nginx.conf
 + 网站放到 /www 目录下

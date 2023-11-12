@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -32,7 +33,7 @@
             </label>
             <ul class="nav-list ">
                 <li class="dropdown">
-                    <a href="#" aria-haspopup="true" class="nav__item nav__item--active">Map Styles</a>
+                    <a href="#" aria-haspopup="true" class="nav__item nav__item--active nav__item--map-styles">Map Styles</a>
                     <ul class="submenu" aria-label="submenu">
                         <li class="submenu__item">
                             <a href="#" class="nav__item" data-style="satellite-streets-v12">Satellite Streets</a>
@@ -53,8 +54,10 @@
                 </li>
             </ul>
         </nav>
+        <div id="fullscreen-container" style="padding: 10px 10px"></div>
+        <div id="geocoder-container" style="padding: 10px 10px"></div>
         <a href="https://citymind.top"
-           class="btn btn-primary donate-btn js-header-donate-btn">About US</a></div>
+           class="btn btn-primary donate-btn js-header-donate-btn">Research Home</a></div>
 </header>
 
 <!-- Map Area -->

@@ -135,9 +135,11 @@ function generatePopupContent(lnglat) {
         <div style="width:1200px; max-width:100%;">
             <canvas id="${uniqueCanvasId}" style="width:100%; height:200px;"></canvas>
         </div>
-        <p align="center">
-                <strong>coordinate (${lnglat.lng.toFixed(3)}&deg;E, ${lnglat.lat.toFixed(3)}&deg;N)</strong>
-            <u id="placesList" style="margin-left: 30px">Popular POIs</u>
+        <p align="center" style="font-size: 18px; margin-bottom: 10px;">
+            <strong>Coordinate (${lnglat.lng.toFixed(3)}&deg;E, ${lnglat.lat.toFixed(3)}&deg;N)</strong>
+        </p>
+        <p align="center" style="font-size: 14px; margin-top: 10px;">
+            <u id="placesList" style="margin-left: 10px; text-decoration: none; color: #007bff;">Popular POIs</u>
         </p>
         `;
 }
@@ -164,7 +166,7 @@ function getNearbyPlaces(lnglat) {
 
 function updatePopupContent(places) {
     if (Array.isArray(places)) {
-        document.querySelector('#placesList').innerHTML = places.join(', ');
+        document.querySelector('#placesList').innerHTML = '<i class="fas fa-info-circle"></i>' + ' ' + '<strong><u>Popular POIs</u></strong>: ' + places.join(', ');
     } else {
         console.error('places is not an array:', places);
     }
